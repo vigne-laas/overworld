@@ -79,7 +79,7 @@ std::vector<Fact> FactsPublisher::filterIncomingFacts(const std::vector<Fact>& f
     auto buf_it = facts_buffer_.find(fact);
     if(buf_it == facts_buffer_.end())
       facts_buffer_.emplace(fact, 0);
-    else if(buf_it->second == 3)
+    else if(buf_it->second == 5) // 5 loop car mementar precis au 1/4 de secondes avec af = 20hz
       stable_facts.emplace_back(fact);
     else
       buf_it->second++;
@@ -107,7 +107,7 @@ std::unordered_set<size_t> FactsPublisher::filterOutgoingFacts(const std::unorde
     auto buf_it = rmv_buffer_.find(fact);
     if(buf_it == rmv_buffer_.end())
       rmv_buffer_.emplace(fact, 0);
-    else if(buf_it->second == 3)
+    else if(buf_it->second == 5) // 5 loop car mementar precis au 1/4 de secondes avec af = 20hz
     {
       stable_facts.insert(fact);
       rmv_buffer_.erase(buf_it);
