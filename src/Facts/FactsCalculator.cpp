@@ -143,7 +143,7 @@ bool FactsCalculator::isOnTopfOf(Object* object_under, Object* object_on)
     return false;
   else if(overlapXY(object_under->getAabb(), object_on->getAabb()) == false)
     return false;
-  else if(std::abs(object_under->getAabb().max[2] - object_on->getAabb().min[2]) > 0.08)
+  else if(std::abs(object_under->getAabb().max[2] - object_on->getAabb().min[2]) > 0.12) // 1/2 de la plus grande longeur des box dt
     return false;
   else
   {
