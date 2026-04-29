@@ -52,6 +52,14 @@ list(APPEND BULLET_LIB_NAMES BulletRoboticsGUI
 
 find_package(Bullet MODULE REQUIRED)
 
+# Override : force le include path vers notre install custom (bullet3 from source
+# contient SharedMemory/, contrairement au paquet libbullet-dev systeme).
+# Ce override DOIT venir apres find_package(Bullet) qui ecrase BULLET_INCLUDE_DIRS.
+if(DEFINED ENV{BULLET_INSTALL_PATH})
+  set(BULLET_INCLUDE_DIRS $ENV{BULLET_INSTALL_PATH}/include/bullet)
+  message(STATUS "Overriding BULLET_INCLUDE_DIRS = ${BULLET_INCLUDE_DIRS}")
+endif()
+
 foreach(lib_name ${BULLET_LIB_NAMES})
   find_library(LIB_PATH ${lib_name} ${BULLET_ROOT}/lib NO_DEFAULT_PATH)
   list(APPEND BULLET_LIBS ${LIB_PATH})
@@ -205,6 +213,13 @@ target_link_libraries(${PROJECT_NAME}_sender_lib PUBLIC
                       ${CURL_LIBRARIES}
                       ${PROJECT_NAME}_types_lib
                       ${PROJECT_NAME}_perception_lib)
+
+# Force la generation des messages avant le build des libs internes
+foreach(_ow_lib ${PROJECT_NAME}_utility_lib ${PROJECT_NAME}_bullet_lib
+                ${PROJECT_NAME}_types_lib ${PROJECT_NAME}_perception_lib
+                ${PROJECT_NAME}_facts_lib ${PROJECT_NAME}_sender_lib)
+  add_dependencies(${_ow_lib} overworld_gencpp ${catkin_EXPORTED_TARGETS})
+endforeach()
 
 #################
 #    Plugins    #

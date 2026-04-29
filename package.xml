@@ -43,7 +43,7 @@
   <build_export_depend>sensor_msgs</build_export_depend>
   <build_export_depend>visualization_msgs</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
-  <build_export_depend>optitrack_mss</build_export_depend>
+  <build_export_depend>optitrack_msgs</build_export_depend>
   <build_export_depend>cv_bridge</build_export_depend>
 
 
